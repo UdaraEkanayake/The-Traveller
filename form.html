@@ -1,0 +1,141 @@
+<?php
+    $servername = "localhost";
+    $username="root";
+    $password="root";
+    $dbname="form";
+    $link=mysqli_connect($servername,$username,$password,$dbname);
+    $con=mysqli_select_db($link,$dbname);
+
+    
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>database operations</title>
+    <style>
+        .travellerForm h1{
+           text-align : center ;
+           
+        }
+        .travellerForm form{
+            
+        }
+        .travellerForm .border{
+            border : 2px solid black ;
+            padding : 40px;
+            justify-content : center ;
+        }
+    </style>
+</head>
+<body>
+    <div class="travellerForm">
+        <h1>Traveller Information Form</h1>
+        <div class="border">
+        <form action="" method="post">
+            
+            <span>Enter Your Name : </span>
+            <input type="text" name="username" placeholder="Name" >
+             <br>
+             <br>
+            <span>Enter Your Email : </span>
+            <input type="email" name="email" placeholder="example@gmail.com" >
+            <br>
+            <br>
+            <span>Enter Your Mobile No : </span>
+            <input type="text" name="mobile" placeholder="Mobile">
+             <br>
+             <br>
+             <span>Number of travellers :</span>
+             <input type="number" name="travellers" >
+             <br>
+             <br>
+             <span>Where would you like to travel ? </span>
+            <input type="text" name="country" placeholder="country" >
+             <br>
+             <br>
+             <span>What is your city of departure ? </span>
+            <input type="text" name="city" placeholder="city" >
+             <br>
+             <br>
+             <input type="submit" name="submit1" value="insert">
+             <input type="submit" name="submit2" value="delete">
+             <input type="submit" name="submit3" value="update">
+              <input type="submit" name="submit4" value="display">
+              <input type="submit" name="submit5" value="search">
+        </form>
+        </div>
+    </div>
+</body>
+</html>
+
+<?php
+if(isset($_POST["submit1"]))
+{
+    mysqli_query($link,"insert into details values('$_POST[username]','$_POST[city]','$_POST[email]','$_POST[mobile]','$_POST[travellers]','$_POST[country]')");
+    echo ("Your details inserted succesfully");
+}
+if(isset($_POST["submit2"]))
+{
+    mysqli_query($link,"delete from details where email='$_POST[email]'");
+    echo ("Your details deleted succesfully");
+}
+if(isset($_POST["submit3"]))
+{
+    mysqli_query($link,"update details set city='$_POST[city]' where username='$_POST[username]'");
+    echo ("City of departure change succesfully");
+}
+if(isset($_POST["submit4"]))
+{
+    $res=mysqli_query($link,"select * from details");
+    echo "<table border=1>";
+    echo "<tr>";
+    echo "<th>" ; echo "name" ; echo "</th>";
+    echo "<th>" ; echo "city" ; echo "</th>";
+    echo "<th>" ; echo "email" ; echo "</th>";
+    echo "<th>" ; echo "mobile" ; echo "</th>";
+    echo "<th>" ; echo "traveller" ; echo "</th>";
+    echo "<th>" ; echo "country" ; echo "</th>";
+    echo "</tr>";
+    while($row=mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" ; echo $row["username"] ; echo "</td>";
+        echo "<td>" ; echo $row["city"] ; echo "</td>";
+        echo "<td>" ; echo $row["email"] ; echo "</td>";
+        echo "<td>" ; echo $row["mobile"] ; echo "</td>";
+        echo "<td>" ; echo $row["travellers"] ; echo "</td>";
+        echo "<td>" ; echo $row["country"] ; echo "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+if(isset($_POST["submit5"]))
+{
+    $res=mysqli_query($link,"select * from details where email='$_POST[email]'");
+    echo ("Search details succesfully");
+    echo "<table border=1>";
+    echo "<tr>";
+    echo "<th>" ; echo "name" ; echo "</th>";
+    echo "<th>" ; echo "city" ; echo "</th>";
+    echo "<th>" ; echo "email" ; echo "</th>";
+    echo "<th>" ; echo "mobile" ; echo "</th>";
+    echo "<th>" ; echo "traveller" ; echo "</th>";
+    echo "<th>" ; echo "country" ; echo "</th>";
+    echo "</tr>";
+    while($row=mysqli_fetch_array($res))
+    {
+        echo "<tr>";
+        echo "<td>" ; echo $row["username"] ; echo "</td>";
+        echo "<td>" ; echo $row["city"] ; echo "</td>";
+        echo "<td>" ; echo $row["email"] ; echo "</td>";
+        echo "<td>" ; echo $row["mobile"] ; echo "</td>";
+        echo "<td>" ; echo $row["travellers"] ; echo "</td>";
+        echo "<td>" ; echo $row["country"] ; echo "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+}
+?>
